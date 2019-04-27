@@ -10,9 +10,9 @@ rooms = [
 ["You decide against entering the Secret Door and to stay in the hole for now.", {"U": 6, "W": 7}, []],
 ["You take the hallway to the west. You walk and walk and walk until you reach the end. There is something on the wall you can't make it out. \n Maybe something can make it clearer?", {"E": 10}, []],
 ["You walked back to the trident in the road. You decide to make your next move.", {"W": 9,"E":11 ,"N": 13}, []],
-["The east hallway a perfect choice. You walk down the hallway, as you go further and further there are pictures each one is the exact same. You feel like you should turn back but you haven't reached the end yet.", {"E": 12,"W": 10}, []],
+["The east hallway a perfect choice. You walk down the hallway, as you go further and further there are pictures each one is the exact same. You feel like you should turn back but you haven't reached the end yet.", {"E": 12,"W": 10,"N": 33,"S": 33}, []],
 ["You man up and keep walking forward, you reach the end. there is a room, inside it has a picture of the ones you have seen in the hallway. There is something off about this picture though.", {"W": 14}, []],
-["You went north, because middle is the best! Wait... isn't that only for oreo's? Your thoughts get interupted as you reach the end of the north hallway. There is a giant door, but it seems as if something has to be done first.", {"S": 10}, []],
+["You went north, because middle is the best! Wait... isn't that only for oreo's? Your thoughts get interupted as you reach the end of the north hallway. There is a giant door, but it seems as if something has to be done first.", {"S": 10, "N": 29}, []],
 ["You walk back from the room back into the east hallway. You see the pictures again. These seem right.", {"E": 12,"W": 10}, []],
 ["You for some reason decided to climb a tree. You go all the way up to the thinnest branches you can go without breaking them. You look around and spot a symbol * in the sand \n Maybe it have some meaning?", {"D": 16}, []],
 ["You climb down the tree. You are glad ground is under your feet again!", {"U": 17,"S": 0}, []],
@@ -27,12 +27,18 @@ rooms = [
 ["You head further into the forest. There seems to be a structure east of here. But it doesn't seem like you can head that way yet because of the prickle bushes.", {"S": 24}, []],
 ["You're funny, aren't ya?", {"W": 6,"N": 6,"S": 6,"E": 6}, []],
 ["You head into the ocean, sadly you didnt grab your floaties. You soon drown (R to reset)", {"S": 27}, []],
-["You got through the prickle bushes, there before you is the structure you saw. Its a temple", {}, []]
-["You enter the newly opened door, there is a gem. Pick it up? (yes or no)", {}, []]
+["You got through the prickle bushes, there before you is the structure you saw. Its a temple", {}, []],
+["You enter the newly opened door, there is a gem. Pick it up? (yes or no)", {"OR": 30,"YES":31 ,"NO":31 }, []],
+["HAHA! Funny!", {"W": 29,"N": 29,"S": 29,"E": 29}, []],
+["It didn't matter what you wanted. The gem was too powerful! You took the gem, and when you looked up you where back at the shore, near the wrecked dingy.", {"W": 1, "E": 2, "N": 3,"S": 27}, []],
+["You brought out the gem, it seems to... Resonate with the temple. You bring it inside and suddenly! All the memories flood back, you remember that this is simply a game that was made during a event and that you're trapped here until end of time! And if the player resets you'll forget everything! You panic! You don't want to forget! But it isn't your choice to begin with. Reset(R)? or Continue(Free)?", {"FREE": 34}, []],
+["You checked the pictures on the side of the hallway. It seems that all of them are just pictures of spears.", {"W": 11,"N": 11,"S": 11,"E": 11}, []],
+["The player releases Frederick the 55th. He is releved, he is finally free from this nightmare! He thanks you for letting him go. He walks away, happy and ready to start his new life on the island. He doesn't know... You can still take it all away from him. THE END", {}, []],
+["You shine the light on the wall, it shows a door with a faded object. You cant tell what the faded object is anymore, maybe there is a clue somewhere else to find out what the object is.", {"E": 10}, []]
 ]
-items = {"rock": ("drop", "use", "combine"), 
-"stick": ("drop", "use", "combine"),
-"spear:": ("drop", "use")
+items = {"rock": (["drop"], ["use"], ["combine"]), 
+"stick": (["drop"], ["use"], ["combine"]),
+"spear": (["drop"], ["use", 25, 28])
 }
 buildable_items ={("rock","stick"): "spear"}
 
@@ -55,13 +61,19 @@ def manage_inventory(room_index):
 	while(True):
 		item = input("What item do you want to work with: ")
 		if not item:
-			return
+			return room_index
 		if item in items:
-			print(items[item])
+			actions = []
+			for x in items[item]:
+				if isinstance (x, (list, tuple)):
+					actions.append (x[0])
+				else:
+					actions.append (x)
+			print(actions)
 		action = input("What action do you want to do: ")
 		if not action:
-			return
-		if action in (items[item]):
+			return room_index
+		if action in actions:
 			if action.lower()=="drop":
 				room_items.append(item)
 				print("You have dropped a {0}".format(item))
@@ -71,15 +83,30 @@ def manage_inventory(room_index):
 					print("This item may not be used in this form.")
 				if item == "stick":
 					print("This item may not be used in this form.")
+				if item == "spear":
+					for a in items[item]:
+						if a[0]!="use":
+							continue
+						if a[1]==room_index:
+							room_index=a[2]
+							return room_index
+						else:
+							print("This item cannot be used here.")
 			if action.lower()=="combine":
 				combine = input("What item do you want to combine this with: ")
 				if not combine:
-					return
-				recipe = tuple([item, combine].sort())
-					if recipe in buildable_items:
-						player_inventory.append(buidlable_items[recipe])
-						player_inventory.remove(item, combine)
+					return room_index
+				l=[item, combine]
+				l.sort()
+				print (l)
+				recipe = tuple(l)
+				if recipe in buildable_items:
+						player_inventory.append(buildable_items[recipe])
+						player_inventory.remove(item)
+						player_inventory.remove(combine)
 			print(player_inventory)
+			return room_index
+
 
 room_index = 0
 player_inventory = []
@@ -93,10 +120,11 @@ while(True):
 	if move in rooms[room_index][1]:
 		room_index = rooms[room_index][1][move]
 	elif move == "I":
-		manage_inventory(room_index)
+		room_index = manage_inventory(room_index)
 	elif move == "Q":
 		break		
 	elif move == "R":
+		print ("You will have the same objects in your inventory as before. \n")
 		print (welcome_text)
 		room_index = 0		
 	elif move == "C":
@@ -113,3 +141,4 @@ while(True):
   
 	
 	display_current_location(room_index)
+
