@@ -28,12 +28,12 @@ rooms = [
 ["You're funny, aren't ya?", {"W": 6,"N": 6,"S": 6,"E": 6}, []],
 ["You head into the ocean, sadly you didnt grab your floaties. You soon drown (R to reset)", {"S": 27}, []],
 ["You got through the prickle bushes, there before you is the structure you saw. Its a temple. You feel as if you have to use something here. But what?", {"N": 25}, []],
-["You enter the newly opened door, there is a gem. Pick it up? (yes or no)", {"OR": 30,"YES":31 ,"NO":31 }, ["gem"]],
+["You enter the newly opened door, there is a gem. Pick it up(C)? (yes or no) Note: type C first before yes", {"OR": 30,"YES":31 ,"NO":31 }, []],
 ["HAHA! Funny!", {"W": 29,"N": 29,"S": 29,"E": 29}, []],
-["It didn't matter what you wanted. The gem was too powerful! You took the gem, and when you looked up you where back at the shore, near the wrecked dingy.", {"W": 1, "E": 2, "N": 3,"S": 27}, []],
+["The gem seems powerful and important, than when you looked up you where back at the shore, near the wrecked dingy.", {"W": 1, "E": 2, "N": 3,"S": 27}, []],
 ["You brought out the gem, it seems to... Resonate with the temple. You bring it inside and suddenly! All the memories flood back, you remember that this is simply a game that was made during a event and that you're trapped here until end of time! And if the player resets you'll forget everything! You panic! You don't want to forget! But it isn't your choice to begin with. Reset(R)? or Continue(Free)?", {"FREE": 34}, []],
 ["You checked the pictures on the side of the hallway. It seems that all of them are just pictures of spears.", {"W": 11,"N": 11,"S": 11,"E": 11}, []],
-["The player releases Frederick the 55th. He is releved, he is finally free from this nightmare! He thanks you for letting him go. He walks away, happy and ready to start his new life on the island. He doesn't know... You can still take it all away from him. THE END", {}, []],
+["The player releases Frederick the 55th. He is releved, he is finally free from this nightmare! He thanks you for letting him go. He walks away, happy and ready to start his new life on the island. Suddenly, in a bright flash of light, the Frederick the 55th wakes up in his bed. He looks around in confusion before it dawns on him. The whole game was in his head. His daughter is sitting next to him, and he realizes he had another episode of his dementia. He smiles, knowing he's fully awake for at least a little bit of time. He'll make the most of it. THE END", {}, []],
 ["You shine the light on the wall, it shows a door with a faded object. You cant tell what the faded object is anymore, maybe there is a clue somewhere else to find out what the object is.", {"E": 10}, []]
 ]
 items = {"rock": (["drop"], ["use"], ["combine"]), 
