@@ -7,11 +7,10 @@ Frederick the 55th woke up on an island not being able to recall anything that h
 ## **About Our Project**
     Our project is a text adventure game featuring your character "Frederick the 55th"
 
-    This project was made in 12 hours with a team of three people (And help from kody's
-    father on the side)
+    This project was made in 12 hours with a team of three people (And help from my father on the side with programming knowledge)
 
 ## **contributors**
 1. Lauren K.
 2. mackenzye N.
 3. Kody K. 
-4. und Kody's Das Vader
+4. Chuck K.
